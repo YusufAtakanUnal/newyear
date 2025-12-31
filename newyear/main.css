@@ -1,0 +1,212 @@
+html, body {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: start;
+}
+.clean-btn {
+    z-index: 1;
+    font-family: sans-serif;
+    font-size: 15px;
+    color: white;
+    text-shadow: 0 0 10px #000000;
+    user-select: none;
+    padding: 0 0 15px 25px;
+    cursor: pointer;
+    text-decoration: underline;
+    opacity: .5;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+}
+
+.name {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 4vw;
+    text-shadow: 0 0 5px #000000;
+    user-select: none;
+    pointer-events: none;
+}
+
+@media all and (min-width: 640px) {
+    .name {
+        font-size: 45px
+    }
+}
+.envelope-wrap{
+  position: fixed;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.envelope-wrap.hidden{ display:none; }
+
+.envelope-wrap .hint{
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,.9);
+  font-family: sans-serif;
+  text-shadow: 0 0 10px rgba(0,0,0,.8);
+  font-size: 14px;
+  opacity: .9;
+}
+
+.envelope{
+  position: relative;
+  width: min(340px, 78vw);
+  height: calc(min(340px, 78vw) * 0.62);
+  cursor: pointer;
+  transform: translateY(10px);
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,.45));
+  transition: transform .25s ease;
+}
+.envelope:hover{ transform: translateY(4px) scale(1.01); }
+
+.env-back{
+  position:absolute; inset:0;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.20);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+}
+
+.env-front{
+  position:absolute; inset:0;
+  border-radius: 14px;
+  overflow:hidden;
+}
+.env-front:before{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0; top:0;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  clip-path: polygon(0 100%, 50% 42%, 100% 100%, 100% 0, 0 0);
+  border: 1px solid rgba(255,255,255,.20);
+}
+
+.env-flap{
+  position:absolute;
+  left:0; right:0; top:0; bottom:0;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.05));
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top;
+  transition: transform .55s cubic-bezier(.2,.9,.2,1);
+  border-top: 1px solid rgba(255,255,255,.25);
+}
+
+.env-seal{
+  position:absolute;
+  left:50%; top:52%;
+  transform: translate(-50%,-50%);
+  width: 52px; height: 52px;
+  border-radius: 999px;
+  display:flex; align-items:center; justify-content:center;
+  font-family: sans-serif;
+  color: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.22);
+  text-shadow: 0 0 10px rgba(0,0,0,.7);
+}
+
+.env-paper{
+  position:absolute;
+  left: 18px; right: 18px;
+  bottom: 16px;
+  height: 82%;
+  border-radius: 12px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  transform: translateY(40%);
+  transition: transform .65s cubic-bezier(.2,.9,.2,1);
+  overflow:hidden;
+}
+.paper-top{
+  height: 18px;
+  background: rgba(255,255,255,.22);
+}
+
+/* OPEN state */
+.envelope.open .env-flap{ transform: rotateX(175deg); }
+.envelope.open .env-paper{ transform: translateY(-12%); }
+
+/* Card overlay */
+.card-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+}
+.card-overlay.hidden{ display:none; }
+
+.card{
+  width: min(520px, 88vw);
+  border-radius: 22px;
+  padding: 22px 20px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.22);
+  color: rgba(255,255,255,.92);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
+
+.card-title{
+  font-size: 18px;
+  letter-spacing: .4px;
+  opacity: .95;
+  margin-bottom: 12px;
+}
+
+.card-text{
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  min-height: 140px;
+}
+
+.card-footer{
+  margin-top: 14px;
+  opacity: .85;
+}
+
+.card-close{
+  margin-top: 16px;
+  width: 100%;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
+}
+.card-close:hover{
+  background: rgba(255,255,255,.12);
+}
